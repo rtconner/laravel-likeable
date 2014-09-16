@@ -1,6 +1,6 @@
 {
 	"name": "rtconner/laravel-likeable",
-	"description": "Trait for Laravel Eloquent models to allow easy implementation of a "like" or "favorite" or "remember" feature.",
+	"description": "Trait for Laravel Eloquent models to allow easy implementation of a 'like' or 'favorite' or 'remember' feature.",
 	"license": "MIT",
 	"homepage": "https://smartersoftware.net/packages/laravel-likeable-favorite",
 	"keywords": ["trait", "laravel", "eloquent", "likeable", "likable", "like", "remember", "follow", "favorite", "favourite"],
