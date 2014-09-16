@@ -23,18 +23,21 @@ trait LikeableTrait {
 		$likeCount = $this->likeCount()->first();
 
 		if($likeCount) {
+
 			$likeCount->count++;
 			$likeCount->save();
-			return true;
-		}
 
-		$likeCount = new LikeCount();
-		$likeCount->count = 1;
-		$this->likeCount()->save($likeCount);
+		} else {
+			
+			$likeCount = new LikeCount();
+			$likeCount->count = 1;
+			$this->likeCount()->save($likeCount);
+			
+		}
 	}
 
 	public function unlike() {
-		$liked = $this->liked()->where('user_id','=',user('id'))->first();
+		$liked = $this->liked()->where('user_id', '=', user('id'))->first();
 
 		if(!$liked)
 			return true;
