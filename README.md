@@ -27,6 +27,8 @@ Trait for Laravel Eloquent models to allow easy implementation of a "like" or "f
     
     $article->likes(); // get count of likes
     
+    $article->liked // (bool) if article is liked by current user or not
+    
 #### Credits
 
  - Adi Gandra - http://nearthebox.com

@@ -2,7 +2,20 @@
 
 trait LikeableTrait {
 
-	public function liked() {
+	/**
+	 * Fetch only records that currently logged in user has liked/followed
+	 */
+	public function scopeWhereLiked($query) {
+		return $query->whereHas('likeCollection', function($q) {
+			$q->where('user_id', '=', user('id'));
+		});
+	}
+	
+	public function getLikedAttribute() {
+		return (bool) $this->likeCollection()->where('user_id', '=', user('id'))->count();
+	}
+	
+	public function likeCollection() {
 		return $this->morphMany('\Conner\Likeable\Liked', 'likable');
 	}
 
@@ -11,14 +24,14 @@ trait LikeableTrait {
 	}
 
 	public function like() {
-		$liked = $this->liked()->where('user_id', '=', user('id'))->first();
+		$liked = $this->likeCollection()->where('user_id', '=', user('id'))->first();
 
 		if($liked)
 			return true;
 
 		$liked = new Liked();
 		$liked->user_id = user('id');
-		$this->liked()->save($liked);
+		$this->likeCollection()->save($liked);
 
 		$likeCount = $this->likeCount()->first();
 
@@ -37,7 +50,7 @@ trait LikeableTrait {
 	}
 
 	public function unlike() {
-		$liked = $this->liked()->where('user_id', '=', user('id'))->first();
+		$liked = $this->likeCollection()->where('user_id', '=', user('id'))->first();
 
 		if(!$liked)
 			return true;
