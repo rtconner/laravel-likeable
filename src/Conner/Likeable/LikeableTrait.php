@@ -6,6 +6,22 @@
 
 trait LikeableTrait {
 
+	/**
+	 * Fetch only records that currently logged in user has liked/followed
+	 */
+	public function scopeWhereLiked($query, $userId=null) {
+		if(is_null($userId)) {
+			$userId = $this->loggedInUserId();
+		}
+		
+		return $query->whereHas('likes', function($q) use($userId) {
+			$q->where('user_id', '=', $userId);
+		});
+	}
+	
+	/**
+	 * Populate the $model->likes attribute
+	 */
 	public function getLikesAttribute() {
 		return $this->likeCounter ? $this->likeCounter->count : 0;
 	}

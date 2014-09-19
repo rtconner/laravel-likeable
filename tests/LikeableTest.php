@@ -150,4 +150,14 @@ class TaggingTest extends \Orchestra\Testbench\TestCase {
 		$this->assertFalse($stub->liked());
 	}
 	
+	public function testWithLiked() {
+		$stub = $this->randomStub(1);
+		$stub->like();
+		$stub = $this->randomStub(2);
+		$stub->like();
+		
+		$found = LikeableStub::whereLiked()->count();
+		$this->assertEquals(2, $found);
+	}
+	
 }
