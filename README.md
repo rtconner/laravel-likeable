@@ -23,13 +23,13 @@ Trait for Laravel Eloquent models to allow easy implementation of a "like" or "f
 
     $article->like(); // like the article for current user
     $article->like($myUserId); // pass in your own user id
+    $article->like(0); // just add likes to the count, and don't track by user
     
     $article->unlike(); // remove like from the article
     $article->unlike($myUserId); // pass in your own user id
+    $article->unlike(0); // remove likes from the count -- does not check for user
     
     $article->likes; // get count of likes
-    
-    $article->liked // (bool) if article is liked by current user or not
     
 #### Credits
 

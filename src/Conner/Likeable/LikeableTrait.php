@@ -34,15 +34,17 @@ trait LikeableTrait {
 			$userId = $this->loggedInUserId();
 		}
 		
-		$like = $this->likes()
-			->where('user_id', '=', $userId)
-			->first();
-
-		if($like) return;
-
-		$like = new Like();
-		$like->user_id = $userId;
-		$this->likes()->save($like);
+		if($userId) {
+			$like = $this->likes()
+				->where('user_id', '=', $userId)
+				->first();
+	
+			if($like) return;
+	
+			$like = new Like();
+			$like->user_id = $userId;
+			$this->likes()->save($like);
+		}
 
 		$this->incrementLikeCount();
 	}
@@ -56,13 +58,15 @@ trait LikeableTrait {
 			$userId = $this->loggedInUserId();
 		}
 		
-		$like = $this->likes()
-			->where('user_id', '=', $userId)
-			->first();
-
-		if(!$like) return;
-
-		$like->delete();
+		if($userId) {
+			$like = $this->likes()
+				->where('user_id', '=', $userId)
+				->first();
+	
+			if(!$like) return;
+	
+			$like->delete();
+		}
 
 		$this->decrementLikeCount();
 	}

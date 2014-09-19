@@ -104,6 +104,28 @@ class TaggingTest extends \Orchestra\Testbench\TestCase {
 		$stub = $this->randomStub();
 		$this->assertEquals(1, $stub->loggedInUserId());
 	}
+	
+	public function testNoUser() {
+		$stub1 = $this->randomStub(6);
+		
+		$j = 6;
+		for($i=0;$i<$j;$i++)
+			$stub1->like(0);
+		
+		$this->assertEquals($j, $stub1->likes);
+		
+		$stub1 = $this->randomStub(6);
+		
+		$k = 2;
+		for($i=0;$i<$k;$i++)
+			$stub1->unlike(0);
+		
+		$this->assertEquals($j-$k, $stub1->likes);
+		
+		$stub2 = $this->randomStub(4);
+		$stub2->like();
+		$this->assertEquals(1, $stub2->likes);
+	}
 
 	private function randomStub($id=null) {
 		LikeableStub::migrate();
