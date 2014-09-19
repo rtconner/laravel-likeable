@@ -81,9 +81,9 @@ trait LikeableTrait {
 			
 		} else {
 			
-			$likeCount = new LikeCounter;
-			$likeCount->count = 1;
-			$this->likeCounter()->save($likeCount);
+			$counter = new LikeCounter;
+			$counter->count = 1;
+			$this->likeCounter()->save($counter);
 			
 		}
 	}
