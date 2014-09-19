@@ -39,7 +39,7 @@ Trait for Laravel Eloquent models to allow easy implementation of a "like" or "f
     $article->liked($myUserId);
     
     Article::whereLiked($myUserId) // find only articles where user liked them
-    	->with('likedCounter') // highly suggested to allow eager load
+    	->with('likeCounter') // highly suggested to allow eager load
     	->get();
     
 #### Credits
