@@ -71,6 +71,16 @@ trait LikeableTrait {
 		$this->decrementLikeCount();
 	}
 	
+	public function liked($userId=null) {
+		if(is_null($userId)) {
+			$userId = $this->loggedInUserId();
+		}
+		
+		return (bool) $this->likes()
+			->where('user_id', '=', $userId)
+			->count();
+	}
+	
 	/**
 	 * Private. Increment the total like count stored in the counter
 	 */

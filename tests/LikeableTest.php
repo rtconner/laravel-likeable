@@ -136,5 +136,18 @@ class TaggingTest extends \Orchestra\Testbench\TestCase {
 		
 		return $stub;
 	}
+
+	public function testLiked() {
+		$stub = $this->randomStub(1);
+		$this->assertFalse($stub->liked());
+
+		$stub = $this->randomStub(1);
+		$stub->like();
+		$this->assertTrue($stub->liked());
+		
+		$stub = $this->randomStub(1);
+		$stub->unlike();
+		$this->assertFalse($stub->liked());
+	}
 	
 }

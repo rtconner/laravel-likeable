@@ -30,6 +30,9 @@ Trait for Laravel Eloquent models to allow easy implementation of a "like" or "f
     $article->unlike(0); // remove likes from the count -- does not check for user
     
     $article->likes; // get count of likes
+
+    $article->liked(); // check if currently logged in user liked the article
+    $article->liked($myUserId);
     
 #### Credits
 
