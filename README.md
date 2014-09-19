@@ -21,13 +21,14 @@ Trait for Laravel Eloquent models to allow easy implementation of a "like" or "f
 
 #### Sample Usage
 
-    $article->like(); // like the article
+    $article->like(); // like the article for current user
+    $article->like($myUserId); // pass in your own user id
     
     $article->unlike(); // remove like from the article
+    $article->unlike($myUserId); // pass in your own user id
     
-    $article->likes(); // get count of likes
+    $article->likes; // get count of likes
     
 #### Credits
 
- - Adi Gandra - http://nearthebox.com
  - Robert Conner - http://smartersoftware.net

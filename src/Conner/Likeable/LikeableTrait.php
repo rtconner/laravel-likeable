@@ -1,65 +1,121 @@
 <?php namespace Conner\Likeable;
 
+/**
+ * Copyright (C) 2014 Robert Conner
+ */
+
 trait LikeableTrait {
 
-	public function liked() {
-		return $this->morphMany('\Conner\Likeable\Liked', 'likable');
+	public function getLikesAttribute() {
+		return $this->likeCounter ? $this->likeCounter->count : 0;
+	}
+	
+	/**
+	 * Collection of the likes on this record
+	 */
+	public function likes() {
+		return $this->morphMany('\Conner\Likeable\Like', 'likable');
 	}
 
-	public function likeCount() {
-		return $this->morphMany('\Conner\Likeable\LikeCount', 'likable');
+	/**
+	 * Counter is a record that stores the total likes for the
+	 * morphed record
+	 */
+	public function likeCounter() {
+		return $this->morphOne('\Conner\Likeable\LikeCounter', 'likable');
+	}
+	
+	/**
+	 * Add a like for this record by the given user.
+	 * @param $userId mixed - If null will use currently logged in user.
+	 */
+	public function like($userId=null) {
+		if(is_null($userId)) {
+			$userId = $this->loggedInUserId();
+		}
+		
+		$like = $this->likes()
+			->where('user_id', '=', $userId)
+			->first();
+
+		if($like) return;
+
+		$like = new Like();
+		$like->user_id = $userId;
+		$this->likes()->save($like);
+
+		$this->incrementLikeCount();
 	}
 
-	public function like() {
-		$liked = $this->liked()->where('user_id', '=', user('id'))->first();
+	/**
+	 * Remove a like from this record for the given user.
+	 * @param $userId mixed - If null will use currently logged in user.
+	 */
+	public function unlike($userId=null) {
+		if(is_null($userId)) {
+			$userId = $this->loggedInUserId();
+		}
+		
+		$like = $this->likes()
+			->where('user_id', '=', $userId)
+			->first();
 
-		if($liked)
-			return true;
+		if(!$like) return;
 
-		$liked = new Liked();
-		$liked->user_id = user('id');
-		$this->liked()->save($liked);
+		$like->delete();
 
-		$likeCount = $this->likeCount()->first();
-
-		if($likeCount) {
-
-			$likeCount->count++;
-			$likeCount->save();
-
+		$this->decrementLikeCount();
+	}
+	
+	/**
+	 * Private. Increment the total like count stored in the counter
+	 */
+	private function incrementLikeCount() {
+		
+		$counter = $this->likeCounter()->first();
+		
+		if($counter) {
+			
+			$counter->count++;
+			$counter->save();
+			
 		} else {
 			
-			$likeCount = new LikeCount();
+			$likeCount = new LikeCounter;
 			$likeCount->count = 1;
-			$this->likeCount()->save($likeCount);
+			$this->likeCounter()->save($likeCount);
 			
 		}
 	}
+	
+	/**
+	 * Private. Decrement the total like count stored in the counter
+	 */
+	private function decrementLikeCount() {
+		$counter = $this->likeCounter()->first();
 
-	public function unlike() {
-		$liked = $this->liked()->where('user_id', '=', user('id'))->first();
-
-		if(!$liked)
-			return true;
-
-		$liked->delete();
-
-		$likeCount = $this->likeCount()->first();
-
-		if($likeCount) {
-			$likeCount->count--;
-			$likeCount->save();
+		if($counter) {
+			$counter->count--;
+			if($counter->count) {
+				$counter->save();
+			} else {
+				$counter->delete();
+			}
 		}
 	}
-
-	public function likes() {
-		$likeCount = $this->likeCount()->first();
-
-		if(!$likeCount) {
-			return 0;
+	
+	/**
+	 * Fetch the primary ID of the currently logged in user
+	 * @return number
+	 */
+	public function loggedInUserId() {
+		
+		if(\App::environment()=='testing') {
+			return 1;
 		}
-
-		return $likeCount->count;
+		
+		return Auth::id();
+		
 	}
 	
 }
