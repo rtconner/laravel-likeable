@@ -6,7 +6,7 @@ Trait for Laravel Eloquent models to allow easy implementation of a "like" or "f
 #### Composer Install
 
     "require": {
-        "rtconner/laravel-likeable": "dev-master"
+        "rtconner/laravel-likeable": "0.1.*"
     }
 
 #### Run the migrations
