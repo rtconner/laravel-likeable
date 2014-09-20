@@ -144,7 +144,7 @@ trait LikeableTrait {
 			return 1;
 		}
 		
-		return Auth::id();
+		return \Auth::id();
 		
 	}
 	

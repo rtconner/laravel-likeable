@@ -11,3 +11,7 @@ before_script:
   - travis_retry composer install
 
 script: vendor/bin/phpunit --verbose
+
+notifications
+  email:
+    on_success: [never]
