@@ -86,6 +86,23 @@ trait LikeableTrait {
 
 		$this->decrementLikeCount();
 	}
+
+	/**
+	 * Toggle a like
+	 * @param $userId mixed - If null will use currently logged in user.
+	 */
+	public function toggle($userId=null) {
+		if(is_null($userId)) {
+			$userId = $this->loggedInUserId();
+		}
+	
+		if($this->liked($userId)){
+			$this->unlike($userId);
+		}else{
+			$this->like($userId);
+		}
+		return $this;
+	}
 	
 	public function liked($userId=null) {
 		if(is_null($userId)) {
