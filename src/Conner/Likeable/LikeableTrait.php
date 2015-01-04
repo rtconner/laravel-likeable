@@ -136,6 +136,7 @@ trait LikeableTrait {
 	
 	/**
 	 * Fetch the primary ID of the currently logged in user
+	 * update to use Sentry or create Auth wrapper of Sentry
 	 * @return number
 	 */
 	public function loggedInUserId() {
