@@ -136,7 +136,7 @@ trait LikeableTrait {
 	
 	/**
 	 * Fetch the primary ID of the currently logged in user
-	 * update to use Sentry or create Auth wrapper of Sentry
+	 * Update: This is disabled. Cookieless sessions only allowed
 	 * @return number
 	 */
 	public function loggedInUserId() {
@@ -144,9 +144,9 @@ trait LikeableTrait {
 		if(\App::environment()=='testing') {
 			return 1;
 		}
-		
-		return \Auth::id();
-		
+
+		throw new Exception("Not Authorized: You must pass in a user for this to work", 500);
+		//return \Auth::id();
 	}
 	
 }
