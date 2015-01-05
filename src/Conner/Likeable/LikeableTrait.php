@@ -162,7 +162,7 @@ trait LikeableTrait {
 			return 1;
 		}
 
-		throw new Exception("Not Authorized: You must pass in a user for this to work", 500);
+		throw new \Exception("Not Authorized: You must pass in a user for this to work", 500);
 		//return \Auth::id();
 	}
 	
