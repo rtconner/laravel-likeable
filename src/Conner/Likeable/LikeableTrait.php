@@ -5,7 +5,6 @@
  */
 
 trait LikeableTrait {
-	protected $appends = array('liked');
 	public $liked = false;
 	
 	/**
