@@ -5,8 +5,7 @@
  */
 
 trait LikeableTrait {
-	public $liked = false;
-	
+
 	/**
 	 * Fetch only records that currently logged in user has liked/followed
 	 */
@@ -178,6 +177,7 @@ trait LikeableTrait {
 		//return \Auth::id();
 	}
 
+	
 	/**
    * @return boolean
    */
