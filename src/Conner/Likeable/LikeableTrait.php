@@ -5,7 +5,9 @@
  */
 
 trait LikeableTrait {
-
+	protected $appends = array('liked');
+	public $liked = false;
+	
 	/**
 	 * Fetch only records that currently logged in user has liked/followed
 	 */
@@ -18,6 +20,16 @@ trait LikeableTrait {
 			$q->where('user_id', '=', $userId);
 		});
 	}
+
+	/**
+	 * Fetch likes for collection
+	 */
+	public function scopeWithLikedBy($query, $userId) {
+    return $query->with(array('likes' => function($query) use (&$userId)
+    {
+        $query->where('user_id',$userId );
+    }));
+  }
 	
 	/**
 	 * Populate the $model->likes attribute
@@ -92,10 +104,11 @@ trait LikeableTrait {
 	 * @param $userId mixed - If null will use currently logged in user.
 	 */
 	public function toggle($userId=null) {
+
 		if(is_null($userId)) {
 			$userId = $this->loggedInUserId();
 		}
-	
+
 		if($this->liked($userId)){
 			$this->unlike($userId);
 		}else{
@@ -165,5 +178,17 @@ trait LikeableTrait {
 		throw new \Exception("Not Authorized: You must pass in a user for this to work", 500);
 		//return \Auth::id();
 	}
+
+	/**
+   * @return boolean
+   */
+  public function getLikedAttribute() {
+      if(count($this->likes)) {
+          return true;
+      } else {
+          return false;
+      }
+      unset($this->liked);
+  }
 	
 }
