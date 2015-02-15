@@ -1,4 +1,4 @@
-<?php namespace Conner\Tagging;
+<?php namespace Conner\Likeable;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -10,7 +10,7 @@ class LikeableServiceProvider extends ServiceProvider {
 	/**
 	 * Indicates if loading of the provider is deferred.
 	 */
-	protected $defer = true;
+	protected $defer = false;
 	
 	/**
 	 * Bootstrap the application events.
@@ -20,5 +20,12 @@ class LikeableServiceProvider extends ServiceProvider {
 			__DIR__.'/../../../migrations/2014_09_10_065447_create_likeable_tables.php' => base_path('database/migrations/2014_09_10_065447_create_likeable_tables.php'),
 		]);
 	}
+	
+	/**
+	 * Register the service provider.
+	 *
+	 * @return void
+	 */
+	public function register() {}
 
 }
