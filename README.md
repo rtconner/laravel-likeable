@@ -12,19 +12,9 @@ Trait for Laravel Eloquent models to allow easy implementation of a "like" or "f
 
 #### Composer Install (for Laravel 5)
 
-	"require": {
-		"rtconner/laravel-likeable": "~1.0.0"
-	}
+	composer require rtconner/laravel-likeable "~1.0.0"
 
 #### Install and then run the migrations
-
-The quick and easy way is to run the migrations from within the plugin folder
-
-```bash	
-php artisan migrate --path=vendor/rtconner/laravel-likeable/migrations
-````
-
-Or you might prefer to have migrations copied to your application
 
 ```
 'providers' => array(
@@ -52,7 +42,9 @@ php artisan migrate
 	$article->unlike($myUserId); // pass in your own user id
 	$article->unlike(0); // remove likes from the count -- does not check for user
 	
-	$article->likes; // get count of likes
+	$article->likeCount; // get count of likes
+	
+	$article->likes; // Iterable Illuminate\Database\Eloquent\Collection of existing likes 
 	
 	$article->liked(); // check if currently logged in user liked the article
 	$article->liked($myUserId);
