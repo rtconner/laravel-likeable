@@ -53,7 +53,7 @@ class TaggingTest extends \Orchestra\Testbench\TestCase {
 		$stub->like(2);
 		$stub->like(3);
 		
-		$this->assertEquals(3, $stub->likes);
+		$this->assertEquals(3, $stub->likeCount);
 	}
 
 	public function testUnlike() {
@@ -63,24 +63,24 @@ class TaggingTest extends \Orchestra\Testbench\TestCase {
 		$stub->unlike(2);
 		$stub->unlike(3);
 		
-		$this->assertEquals(0, $stub->likes);
+		$this->assertEquals(0, $stub->likeCount);
 		
 		$stub = $this->randomStub(100);
 		$stub->like(2);
 		$stub->like(3);
 		
-		$this->assertEquals(2, $stub->likes);
+		$this->assertEquals(2, $stub->likeCount);
 		
 		$stub = $this->randomStub(100);
 		$stub->like(4);
 		$stub->like(4);
 		
-		$this->assertEquals(3, $stub->likes);
+		$this->assertEquals(3, $stub->likeCount);
 		
 		$stub = $this->randomStub(100);
 		$stub->unlike(4);
 		
-		$this->assertEquals(2, $stub->likes);
+		$this->assertEquals(2, $stub->likeCount);
 	}
 	
 	public function testMultiple() {
@@ -96,8 +96,8 @@ class TaggingTest extends \Orchestra\Testbench\TestCase {
 		$stub2->like(8);
 		$stub2->like(5);
 		
-		$this->assertEquals(4, $stub1->likes);
-		$this->assertEquals(3, $stub2->likes);
+		$this->assertEquals(4, $stub1->likeCount);
+		$this->assertEquals(3, $stub2->likeCount);
 	}
 
 	public function test_loggedInUserId() {
@@ -112,7 +112,7 @@ class TaggingTest extends \Orchestra\Testbench\TestCase {
 		for($i=0;$i<$j;$i++)
 			$stub1->like(0);
 		
-		$this->assertEquals($j, $stub1->likes);
+		$this->assertEquals($j, $stub1->likeCount);
 		
 		$stub1 = $this->randomStub(6);
 		
@@ -120,21 +120,11 @@ class TaggingTest extends \Orchestra\Testbench\TestCase {
 		for($i=0;$i<$k;$i++)
 			$stub1->unlike(0);
 		
-		$this->assertEquals($j-$k, $stub1->likes);
+		$this->assertEquals($j-$k, $stub1->likeCount);
 		
 		$stub2 = $this->randomStub(4);
 		$stub2->like();
-		$this->assertEquals(1, $stub2->likes);
-	}
-
-	private function randomStub($id=null) {
-		LikeableStub::migrate();
-		
-		if(is_null($id)) { $id = rand(1,100); }
-		
-		$stub = LikeableStub::firstOrCreate(['id'=>$id]);
-		
-		return $stub;
+		$this->assertEquals(1, $stub2->likeCount);
 	}
 
 	public function testLiked() {
@@ -158,6 +148,16 @@ class TaggingTest extends \Orchestra\Testbench\TestCase {
 		
 		$found = LikeableStub::whereLiked()->count();
 		$this->assertEquals(2, $found);
+	}
+
+	private function randomStub($id=null) {
+		LikeableStub::migrate();
+		
+		if(is_null($id)) { $id = rand(1,100); }
+		
+		$stub = LikeableStub::firstOrCreate(['id'=>$id]);
+		
+		return $stub;
 	}
 	
 }
