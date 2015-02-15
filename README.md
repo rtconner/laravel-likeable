@@ -7,15 +7,18 @@ Laravel Likeable Plugin
 
 Trait for Laravel Eloquent models to allow easy implementation of a "like" or "favorite" or "remember" feature.
 
-#### Composer Install
+[Laravel 5 Documentation](https://github.com/rtconner/laravel-likeable/tree/laravel-5)  
+[Laravel 4 Documentation](https://github.com/rtconner/laravel-likeable/tree/laravel-4)
+
+#### Composer Install (for Laravel 5)
 
     "require": {
-        "rtconner/laravel-likeable": "0.1.*"
+        "rtconner/laravel-likeable": "~1.0.0"
     }
 
 #### Run the migrations
 
-	php artisan migrate --package=rtconner/laravel-likeable
+	php artisan migrate --path=vendor/rtconner/laravel-tagging/migrations
 	
 #### Setup your models
 

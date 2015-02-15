@@ -6,7 +6,8 @@ class LikeCounter extends \Eloquent {
 	public $timestamps = false;
 	protected $fillable = ['likable_id', 'likable_type', 'count'];
 	
-	public function likable() {
+	public function likable()
+	{
 		return $this->morphTo();
 	}
 	

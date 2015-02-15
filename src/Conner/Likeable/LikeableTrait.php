@@ -9,7 +9,8 @@ trait LikeableTrait {
 	/**
 	 * Fetch only records that currently logged in user has liked/followed
 	 */
-	public function scopeWhereLiked($query, $userId=null) {
+	public function scopeWhereLiked($query, $userId=null)
+	{
 		if(is_null($userId)) {
 			$userId = $this->loggedInUserId();
 		}
@@ -22,14 +23,16 @@ trait LikeableTrait {
 	/**
 	 * Populate the $model->likes attribute
 	 */
-	public function getLikesAttribute() {
+	public function getLikesAttribute()
+	{
 		return $this->likeCounter ? $this->likeCounter->count : 0;
 	}
 	
 	/**
 	 * Collection of the likes on this record
 	 */
-	public function likes() {
+	public function likes()
+	{
 		return $this->morphMany('\Conner\Likeable\Like', 'likable');
 	}
 
@@ -37,7 +40,8 @@ trait LikeableTrait {
 	 * Counter is a record that stores the total likes for the
 	 * morphed record
 	 */
-	public function likeCounter() {
+	public function likeCounter()
+	{
 		return $this->morphOne('\Conner\Likeable\LikeCounter', 'likable');
 	}
 	
@@ -45,7 +49,8 @@ trait LikeableTrait {
 	 * Add a like for this record by the given user.
 	 * @param $userId mixed - If null will use currently logged in user.
 	 */
-	public function like($userId=null) {
+	public function like($userId=null)
+	{
 		if(is_null($userId)) {
 			$userId = $this->loggedInUserId();
 		}
@@ -69,7 +74,8 @@ trait LikeableTrait {
 	 * Remove a like from this record for the given user.
 	 * @param $userId mixed - If null will use currently logged in user.
 	 */
-	public function unlike($userId=null) {
+	public function unlike($userId=null)
+	{
 		if(is_null($userId)) {
 			$userId = $this->loggedInUserId();
 		}
@@ -87,7 +93,14 @@ trait LikeableTrait {
 		$this->decrementLikeCount();
 	}
 	
-	public function liked($userId=null) {
+	/**
+	 * Has the currently logged in user already "liked" the current object
+	 *
+	 * @param string $userId
+	 * @return boolean
+	 */
+	public function liked($userId=null)
+	{
 		if(is_null($userId)) {
 			$userId = $this->loggedInUserId();
 		}
@@ -100,8 +113,8 @@ trait LikeableTrait {
 	/**
 	 * Private. Increment the total like count stored in the counter
 	 */
-	private function incrementLikeCount() {
-		
+	private function incrementLikeCount()
+	{
 		$counter = $this->likeCounter()->first();
 		
 		if($counter) {
@@ -121,7 +134,8 @@ trait LikeableTrait {
 	/**
 	 * Private. Decrement the total like count stored in the counter
 	 */
-	private function decrementLikeCount() {
+	private function decrementLikeCount()
+	{
 		$counter = $this->likeCounter()->first();
 
 		if($counter) {
@@ -138,14 +152,13 @@ trait LikeableTrait {
 	 * Fetch the primary ID of the currently logged in user
 	 * @return number
 	 */
-	public function loggedInUserId() {
-		
+	public function loggedInUserId()
+	{
 		if(\App::environment()=='testing') {
 			return 1;
 		}
 		
 		return \Auth::id();
-		
 	}
 	
 }
