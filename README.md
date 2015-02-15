@@ -10,7 +10,7 @@ Trait for Laravel Eloquent models to allow easy implementation of a "like" or "f
 #### Composer Install
 
     "require": {
-        "rtconner/laravel-likeable": "0.1.*"
+        "rtconner/laravel-likeable": "0.2.*"
     }
 
 #### Run the migrations
@@ -33,7 +33,9 @@ Trait for Laravel Eloquent models to allow easy implementation of a "like" or "f
     $article->unlike($myUserId); // pass in your own user id
     $article->unlike(0); // remove likes from the count -- does not check for user
     
-    $article->likes; // get count of likes
+    $article->likeCount; // get count of likes
+
+    $article->likes; // Iterable collection of likes
 
     $article->liked(); // check if currently logged in user liked the article
     $article->liked($myUserId);

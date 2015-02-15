@@ -22,7 +22,7 @@ trait LikeableTrait {
 	/**
 	 * Populate the $model->likes attribute
 	 */
-	public function getLikesAttribute() {
+	public function getLikeCountAttribute() {
 		return $this->likeCounter ? $this->likeCounter->count : 0;
 	}
 	
