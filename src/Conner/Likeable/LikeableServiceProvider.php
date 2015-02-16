@@ -7,25 +7,18 @@ use Illuminate\Support\ServiceProvider;
  */
 class LikeableServiceProvider extends ServiceProvider {
 
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 */
-	protected $defer = false;
+	protected $defer = true;
 	
-	/**
-	 * Bootstrap the application events.
-	 */
 	public function boot() {
 		$this->publishes([
 			__DIR__.'/../../../migrations/2014_09_10_065447_create_likeable_tables.php' => base_path('database/migrations/2014_09_10_065447_create_likeable_tables.php'),
 		]);
 	}
 	
-	/**
-	 * Register the service provider.
-	 *
-	 * @return void
-	 */
 	public function register() {}
 
+	public function when() {
+		return array('artisan.start');
+	}
+	
 }

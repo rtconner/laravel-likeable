@@ -16,13 +16,14 @@ Trait for Laravel Eloquent models to allow easy implementation of a "like" or "f
 
 #### Install and then run the migrations
 
-```
+```php
 'providers' => array(
 	'Conner\Likeable\LikeableServiceProvider',
 );
+```
 
-php artisan vendor:publish
-
+```bash
+php artisan vendor:publish --provider="Conner\Likeable\LikeableServiceProvider"
 php artisan migrate
 ```
 
