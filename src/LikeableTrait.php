@@ -154,10 +154,6 @@ trait LikeableTrait {
 	 */
 	public function loggedInUserId()
 	{
-		if(\App::environment()=='testing') {
-			return 1;
-		}
-		
 		return \Auth::id();
 	}
 	
