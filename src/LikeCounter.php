@@ -1,6 +1,6 @@
 <?php namespace Conner\Likeable;
 
-class LikeCounter extends \Eloquent {
+class LikeCounter extends Illuminate\Database\Eloquent\Model {
 
 	protected $table = 'likeable_like_counters';
 	public $timestamps = false;
