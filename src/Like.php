@@ -1,6 +1,8 @@
 <?php namespace Conner\Likeable;
 
-class Like extends Illuminate\Database\Eloquent\Model {
+use Illuminate\Database\Eloquent\Model as Eloquent;
+
+class Like extends Eloquent {
 
 	protected $table = 'likeable_likes';
 	public $timestamps = true;
