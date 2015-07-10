@@ -18,6 +18,16 @@ trait LikeableTrait {
 			$q->where('user_id', '=', $userId);
 		});
 	}
+
+	/**
+	 * Fetch likes for collection
+	 */
+	public function scopeWithLikedBy($query, $userId) {
+    return $query->with(array('likes' => function($query) use (&$userId)
+    {
+        $query->where('user_id',$userId );
+    }));
+  }
 	
 	/**
 	 * Populate the $model->likes attribute
@@ -86,6 +96,24 @@ trait LikeableTrait {
 
 		$this->decrementLikeCount();
 	}
+
+	/**
+	 * Toggle a like
+	 * @param $userId mixed - If null will use currently logged in user.
+	 */
+	public function toggle($userId=null) {
+
+		if(is_null($userId)) {
+			$userId = $this->loggedInUserId();
+		}
+
+		if($this->liked($userId)){
+			$this->unlike($userId);
+		}else{
+			$this->like($userId);
+		}
+		return $this;
+	}
 	
 	public function liked($userId=null) {
 		if(is_null($userId)) {
@@ -136,6 +164,7 @@ trait LikeableTrait {
 	
 	/**
 	 * Fetch the primary ID of the currently logged in user
+	 * Update: This is disabled. Cookieless sessions only allowed
 	 * @return number
 	 */
 	public function loggedInUserId() {
@@ -143,9 +172,22 @@ trait LikeableTrait {
 		if(\App::environment()=='testing') {
 			return 1;
 		}
-		
-		return \Auth::id();
-		
+
+		throw new \Exception("Not Authorized: You must pass in a user for this to work", 500);
+		//return \Auth::id();
 	}
+
+	
+	/**
+   * @return boolean
+   */
+  public function getLikedAttribute() {
+      if(count($this->likes)) {
+          return true;
+      } else {
+          return false;
+      }
+      unset($this->liked);
+  }
 	
 }
