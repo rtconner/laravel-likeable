@@ -1,11 +1,12 @@
-<?php namespace Conner\Likeable;
+<?php
+
+namespace Conner\Likeable;
 
 /**
  * Copyright (C) 2014 Robert Conner
  */
-
-trait LikeableTrait {
-
+trait LikeableTrait
+{
 	/**
 	 * Fetch only records that currently logged in user has liked/followed
 	 */
@@ -118,16 +119,12 @@ trait LikeableTrait {
 		$counter = $this->likeCounter()->first();
 		
 		if($counter) {
-			
 			$counter->count++;
 			$counter->save();
-			
 		} else {
-			
 			$counter = new LikeCounter;
 			$counter->count = 1;
 			$this->likeCounter()->save($counter);
-			
 		}
 	}
 	

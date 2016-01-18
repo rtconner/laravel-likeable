@@ -12,13 +12,13 @@ Trait for Laravel Eloquent models to allow easy implementation of a "like" or "f
 
 #### Composer Install (for Laravel 5)
 
-	composer require rtconner/laravel-likeable "~1.0.7"
+	composer require rtconner/laravel-likeable "~1.0"
 
 #### Install and then run the migrations
 
 ```php
 'providers' => array(
-	'Conner\Likeable\LikeableServiceProvider',
+	Conner\Likeable\LikeableServiceProvider::class,
 );
 ```
 
