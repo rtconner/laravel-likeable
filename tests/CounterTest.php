@@ -3,7 +3,7 @@
 use Mockery as m;
 use Conner\Likeable\LikeableTrait;
 
-class TaggingTest extends PHPUnit_Framework_TestCase {
+class CounterTest extends PHPUnit_Framework_TestCase {
 
 	public function tearDown()
 	{

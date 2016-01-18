@@ -8,9 +8,18 @@ namespace Conner\Likeable;
 trait LikeableTrait
 {
 	/**
-	 * Fetch only records that currently logged in user has liked/followed
+	 * DEPRECATED - Use whereLikedBy()
 	 */
 	public function scopeWhereLiked($query, $userId=null)
+	{
+		return $this->scopeWhereLikedBy($query, $userId);
+	}
+	
+	/**
+	 * Fetch records that are liked by a given user.
+	 * Ex: Book::whereLikedBy(123)->get();
+	 */
+	public function scopeWhereLikedBy($query, $userId=null)
 	{
 		if(is_null($userId)) {
 			$userId = $this->loggedInUserId();
@@ -20,6 +29,7 @@ trait LikeableTrait
 			$q->where('user_id', '=', $userId);
 		});
 	}
+	
 	
 	/**
 	 * Populate the $model->likes attribute
@@ -34,7 +44,7 @@ trait LikeableTrait
 	 */
 	public function likes()
 	{
-		return $this->morphMany('\Conner\Likeable\Like', 'likable');
+		return $this->morphMany(\Conner\Likeable\Like::class, 'likable');
 	}
 
 	/**
@@ -43,7 +53,7 @@ trait LikeableTrait
 	 */
 	public function likeCounter()
 	{
-		return $this->morphOne('\Conner\Likeable\LikeCounter', 'likable');
+		return $this->morphOne(\Conner\Likeable\LikeCounter::class, 'likable');
 	}
 	
 	/**
@@ -86,7 +96,7 @@ trait LikeableTrait
 				->where('user_id', '=', $userId)
 				->first();
 	
-			if(!$like) return;
+			if(!$like) { return; }
 	
 			$like->delete();
 		}
@@ -151,7 +161,17 @@ trait LikeableTrait
 	 */
 	public function loggedInUserId()
 	{
-		return \Auth::id();
+		return auth()->id();
+	}
+	
+	/**
+	 * Did the currently logged in user like this model
+	 * Example : if($book->liked) { }
+	 * @return boolean
+	 */
+	public function getLikedAttribute()
+	{
+		return $this->liked();
 	}
 	
 }
