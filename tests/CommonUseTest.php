@@ -60,7 +60,7 @@ class CommonUseTest extends TestCase
 		$this->assertEquals(4, $stub->likeCount);
 	}
 	
-	public function test_unike()
+	public function test_unlike()
 	{
 		$stub = Stub::create(['name'=>123]);
 		
