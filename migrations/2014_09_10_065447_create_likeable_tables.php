@@ -20,7 +20,7 @@ class CreateLikeableTables extends Migration {
 			$table->increments('id');
 			$table->string('likable_id', 36);
 			$table->string('likable_type', 255);
-			$table->integer('count')->unsigned()->default(0);
+			$table->unsignedInteger('count')->default(0);
 			$table->unique(['likable_id', 'likable_type'], 'likeable_counts');
 		});
 		
