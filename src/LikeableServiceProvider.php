@@ -14,8 +14,8 @@ class LikeableServiceProvider extends ServiceProvider
 	public function boot()
 	{
 		$this->publishes([
-        	__DIR__.'/../migrations/' => database_path('migrations')
-    	], 'migrations');
+			__DIR__.'/../migrations/' => database_path('migrations')
+		], 'migrations');
 	}
 	
 	public function register() {}

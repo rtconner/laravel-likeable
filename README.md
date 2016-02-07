@@ -12,7 +12,7 @@ Trait for Laravel Eloquent models to allow easy implementation of a "like" or "f
 
 #### Composer Install (for Laravel 5)
 
-	composer require rtconner/laravel-likeable "~1.1"
+	composer require rtconner/laravel-likeable "~1.2"
 
 #### Install and then run the migrations
 
@@ -23,7 +23,7 @@ Trait for Laravel Eloquent models to allow easy implementation of a "like" or "f
 ```
 
 ```bash
-php artisan vendor:publish --provider="Conner\Likeable\LikeableServiceProvider"
+php artisan vendor:publish --provider="Conner\Likeable\LikeableServiceProvider" --tag=migrations
 php artisan migrate
 ```
 
