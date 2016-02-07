@@ -5,14 +5,20 @@ namespace Conner\Likeable;
 /**
  * Copyright (C) 2014 Robert Conner
  */
-trait LikeableTrait
+trait Likeable
 {
 	/**
-	 * DEPRECATED - Use whereLikedBy()
+	 * Boot the soft taggable trait for a model.
+	 *
+	 * @return void
 	 */
-	public function scopeWhereLiked($query, $userId=null)
+	public static function bootLikeable()
 	{
-		return $this->scopeWhereLikedBy($query, $userId);
+		if(static::removeLikesOnDelete()) {
+			static::deleting(function($model) {
+				$model->removeLikes();
+			});
+		}
 	}
 	
 	/**
@@ -44,7 +50,7 @@ trait LikeableTrait
 	 */
 	public function likes()
 	{
-		return $this->morphMany(\Conner\Likeable\Like::class, 'likable');
+		return $this->morphMany(Like::class, 'likeable');
 	}
 
 	/**
@@ -53,7 +59,7 @@ trait LikeableTrait
 	 */
 	public function likeCounter()
 	{
-		return $this->morphOne(\Conner\Likeable\LikeCounter::class, 'likable');
+		return $this->morphOne(LikeCounter::class, 'likeable');
 	}
 	
 	/**
@@ -174,4 +180,24 @@ trait LikeableTrait
 		return $this->liked();
 	}
 	
+	/**
+	 * Should remove likes on model row delete (defaults to true)
+	 * public static removeLikesOnDelete = false;
+	 */
+	public static function removeLikesOnDelete()
+	{
+		return isset(static::$removeLikesOnDelete)
+			? static::$removeLikesOnDelete
+			: true;
+	}
+	
+	/**
+	 * Delete likes related to the current record
+	 */
+	public function removeLikes()
+	{
+		Like::where('likeable_type', $this->morphClass)->where('likeable_id', $this->id)->delete();
+		
+		LikeCounter::where('likeable_type', $this->morphClass)->where('likeable_id', $this->id)->delete();
+	}
 }

@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use Illuminate\Database\Capsule\Manager as DB;
-use Conner\Likeable\LikeableTrait;
+use Conner\Likeable\Likeable;
+use Conner\Likeable\LikeCounter;
 
 class CommonUseTest extends TestCase
 {
@@ -81,11 +81,53 @@ class CommonUseTest extends TestCase
 		$this->assertEquals(3, $stubs->count());
 		$this->assertEmpty($shouldBeEmpty);
 	}
+	
+	public function test_likes_get_deletes_with_record()
+	{
+		$stub1 = Stub::create(['name'=>456]);
+		$stub2 = Stub::create(['name'=>123]);
+		
+		$stub1->like(1);
+		$stub1->like(7);
+		$stub1->like(8);
+		$stub2->like(1);
+		$stub2->like(2);
+		$stub2->like(3);
+		$stub2->like(4);
+		
+		$stub1->delete();
+		
+		$results = LikeCounter::all();
+		$this->assertEquals(1, $results->count());
+	}
+	
+	public function test_rebuild_test()
+	{
+		$stub1 = Stub::create(['name'=>456]);
+		$stub2 = Stub::create(['name'=>123]);
+		
+		$stub1->like(1);
+		$stub1->like(7);
+		$stub1->like(8);
+		$stub2->like(1);
+		$stub2->like(2);
+		$stub2->like(3);
+		$stub2->like(4);
+		
+		LikeCounter::truncate();
+		
+		LikeCounter::rebuild('Stub');
+		
+		$results = LikeCounter::all();
+		$this->assertEquals(2, $results->count());
+	}
 }
 
 class Stub extends Eloquent
 {
-	use LikeableTrait;
+	use Likeable;
+	
+	protected $morphClass = 'Stub';
 	
 	protected $connection = 'testbench';
 	

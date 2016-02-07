@@ -1,10 +1,10 @@
 <?php
 
 use Mockery as m;
-use Conner\Likeable\LikeableTrait;
+use Conner\Likeable\Likeable;
 
-class CounterTest extends PHPUnit_Framework_TestCase {
-
+class CounterTest extends PHPUnit_Framework_TestCase
+{
 	public function tearDown()
 	{
 		m::close();
@@ -12,24 +12,25 @@ class CounterTest extends PHPUnit_Framework_TestCase {
 	
 	public function testLike()
 	{
-		$likable = m::mock('LikeableStub[incrementLikeCount]');
-		$likable->shouldReceive('incrementLikeCount')->andReturn(null);
+		$likeable = m::mock('LikeableStub[incrementLikeCount]');
+		$likeable->shouldReceive('incrementLikeCount')->andReturn(null);
 		
-		$likable->like(0);
+		$likeable->like(0);
 	}
 	
 	public function testUnlike()
 	{
-		$likable = m::mock('LikeableStub[decrementLikeCount]');
-		$likable->shouldReceive('decrementLikeCount')->andReturn(null);
+		$likeable = m::mock('LikeableStub[decrementLikeCount]');
+		$likeable->shouldReceive('decrementLikeCount')->andReturn(null);
 		
-		$likable->unlike(0);
+		$likeable->unlike(0);
 	}
 	
 }
 
-class LikeableStub extends \Illuminate\Database\Eloquent\Model {
-	use LikeableTrait;
+class LikeableStub extends \Illuminate\Database\Eloquent\Model
+{
+	use Likeable;
 
 	public function incrementLikeCount() {}
 	public function decrementLikeCount() {}

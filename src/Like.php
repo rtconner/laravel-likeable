@@ -8,11 +8,10 @@ class Like extends Eloquent
 {
 	protected $table = 'likeable_likes';
 	public $timestamps = true;
-	protected $fillable = ['likable_id', 'likable_type', 'user_id'];
+	protected $fillable = ['likeable_id', 'likeable_type', 'user_id'];
 
-	public function likable()
+	public function likeable()
 	{
 		return $this->morphTo();
 	}
-	
 }
