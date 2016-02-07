@@ -14,14 +14,9 @@ class LikeableServiceProvider extends ServiceProvider
 	public function boot()
 	{
 		$this->publishes([
-			__DIR__.'/../migrations/2014_09_10_065447_create_likeable_tables.php' => $this->app->databasePath().'/migrations/2014_09_10_065447_create_likeable_tables.php',
-		]);
+        	__DIR__.'/../migrations/' => database_path('migrations')
+    	], 'migrations');
 	}
 	
 	public function register() {}
-
-	public function when()
-	{
-		return array('artisan.start');
-	}
 }
