@@ -9,12 +9,10 @@ use Illuminate\Support\ServiceProvider;
  */
 class LikeableServiceProvider extends ServiceProvider
 {
-	protected $defer = true;
-	
 	public function boot()
 	{
 		$this->publishes([
-			__DIR__.'/../migrations/' => database_path('migrations')
+			realpath(__DIR__.'/../migrations') => database_path('migrations')
 		], 'migrations');
 	}
 	
