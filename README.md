@@ -55,7 +55,7 @@ $article->likes; // Iterable Illuminate\Database\Eloquent\Collection of existing
 $article->liked(); // check if currently logged in user liked the article
 $article->liked($myUserId);
 
-Article::whereLiked($myUserId) // find only articles where user liked them
+Article::whereLikedBy($myUserId) // find only articles where user liked them
 	->with('likeCounter') // highly suggested to allow eager load
 	->get();
 ```
