@@ -37,6 +37,16 @@ class Article extends \Illuminate\Database\Eloquent\Model {
 }
 ```
 
+#### For Laravel 5.2 > use this instead
+
+````
+use Conner\Likeable\LikeableTrait;
+class Article extends \Illuminate\Database\Eloquent\Model {
+
+use LikeableTrait;
+}
+````
+
 #### Sample Usage
 
 ```php
