@@ -28,7 +28,7 @@ class CommonUseTest extends TestCase
 	    ]);
 	    
 		\Schema::create('books', function ($table) {
-			$table->increments('id');
+			$table->bigIncrements('id');
 			$table->string('name');
 			$table->timestamps();
 		});
