@@ -8,3 +8,4 @@
 .buildpath
 composer.lock
 /vendor
+ .phpintel/*
