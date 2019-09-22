@@ -8,7 +8,7 @@ class CreateLikeableTables extends Migration
 	public function up()
 	{
 		Schema::create('likeable_likes', function(Blueprint $table) {
-			$table->increments('id');
+			$table->bigIncrements('id');
 			$table->string('likeable_id', 36);
 			$table->string('likeable_type', 255);
 			$table->string('user_id', 36)->index();
@@ -17,10 +17,10 @@ class CreateLikeableTables extends Migration
 		});
 		
 		Schema::create('likeable_like_counters', function(Blueprint $table) {
-			$table->increments('id');
+			$table->bigIncrements('id');
 			$table->string('likeable_id', 36);
 			$table->string('likeable_type', 255);
-			$table->unsignedInteger('count')->default(0);
+			$table->unsignedBigInteger('count')->default(0);
 			$table->unique(['likeable_id', 'likeable_type'], 'likeable_counts');
 		});
 		
