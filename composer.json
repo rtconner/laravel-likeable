@@ -17,7 +17,7 @@
 	},
 	"require-dev": {
 		"orchestra/testbench": "5.*|3.*",
-		"phpunit/phpunit": "8.*|7.*",
+		"phpunit/phpunit": "8.*|6.*",
 		"mockery/mockery": "1.*"
 	},
 	"autoload": {
