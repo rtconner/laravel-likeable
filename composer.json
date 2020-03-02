@@ -16,8 +16,8 @@
 		"illuminate/support": ">=5.0|^6.0|^7.0"
 	},
 	"require-dev": {
-		"orchestra/testbench": "5.*|3.*",
-		"phpunit/phpunit": "8.*|5.*",
+		"orchestra/testbench": "5.*",
+		"phpunit/phpunit": "8.*",
 		"mockery/mockery": "1.*"
 	},
 	"autoload": {
