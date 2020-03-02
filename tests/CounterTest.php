@@ -1,18 +1,16 @@
 <?php
 
+namespace Conner\Tests\Likeable;
+
+use Illuminate\Database\Eloquent\Model;
 use Mockery as m;
 use Conner\Likeable\Likeable;
 
-class CounterTest extends PHPUnit_Framework_TestCase
+class CounterBaseTest extends BaseTestCase
 {
-	public function tearDown()
-	{
-		m::close();
-	}
-	
 	public function testLike()
 	{
-		$likeable = m::mock('LikeableStub[incrementLikeCount]');
+		$likeable = m::mock('Conner\Tests\Likeable\LikeableStub[incrementLikeCount]');
 		$likeable->shouldReceive('incrementLikeCount')->andReturn(null);
 		
 		$likeable->like(0);
@@ -20,7 +18,7 @@ class CounterTest extends PHPUnit_Framework_TestCase
 	
 	public function testUnlike()
 	{
-		$likeable = m::mock('LikeableStub[decrementLikeCount]');
+		$likeable = m::mock('Conner\Tests\Likeable\LikeableStub[decrementLikeCount]');
 		$likeable->shouldReceive('decrementLikeCount')->andReturn(null);
 		
 		$likeable->unlike(0);
@@ -28,7 +26,7 @@ class CounterTest extends PHPUnit_Framework_TestCase
 	
 }
 
-class LikeableStub extends \Illuminate\Database\Eloquent\Model
+class LikeableStub extends Model
 {
 	use Likeable;
 

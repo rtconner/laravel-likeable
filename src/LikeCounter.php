@@ -4,26 +4,33 @@ namespace Conner\Likeable;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
+/**
+ * @mixin \Eloquent
+ * @property Likeable likeable
+ */
 class LikeCounter extends Eloquent
 {
 	protected $table = 'likeable_like_counters';
 	public $timestamps = false;
 	protected $fillable = ['likeable_id', 'likeable_type', 'count'];
-	
+
+    /**
+     * @access private
+     */
 	public function likeable()
 	{
 		return $this->morphTo();
 	}
-	
-	/**
-	 * Delete all counts of the given model, and recount them and insert new counts
-	 *
-	 * @param string $model (should match Model::$morphClass)
-	 */
+
+    /**
+     * Delete all counts of the given model, and recount them and insert new counts
+     *
+     * @param $modelClass
+     */
 	public static function rebuild($modelClass)
 	{
 		if(empty($modelClass)) {
-			throw new \Exception('$modelClass cannot be empty/null. Maybe set the $morphClass variable on your model.');
+            throw new \Exception('$modelClass cannot be empty/null. Maybe set the $morphClass variable on your model.');
 		}
 		
 		$builder = Like::query()

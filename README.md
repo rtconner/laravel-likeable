@@ -3,29 +3,22 @@ Laravel Likeable Plugin
 
 Important Note: As of version 1.2 I renamed `Conner\Likeable\LikeableTrait` to `Conner\Likeable\Likeable`
 
-[![Build Status](https://travis-ci.org/rtconner/laravel-likeable.svg?branch=master)](https://travis-ci.org/rtconner/laravel-likeable)
+[![Build Status](https://travis-ci.org/rtconner/laravel-likeable.svg?branch=laravel-7)](https://travis-ci.org/rtconner/laravel-likeable)
 [![Latest Stable Version](https://poser.pugx.org/rtconner/laravel-likeable/v/stable.svg)](https://packagist.org/packages/rtconner/laravel-likeable)
 [![License](https://poser.pugx.org/rtconner/laravel-likeable/license.svg)](https://packagist.org/packages/rtconner/laravel-likeable)
 
 Trait for Laravel Eloquent models to allow easy implementation of a "like" or "favorite" or "remember" feature.
 
-[Laravel 5 Documentation](https://github.com/rtconner/laravel-likeable/tree/laravel-5)  
+[Laravel 5/6/7 Documentation](https://github.com/rtconner/laravel-likeable/tree/laravel-7)  
 [Laravel 4 Documentation](https://github.com/rtconner/laravel-likeable/tree/laravel-4)
 
 #### Composer Install (for Laravel 5)
 
-	composer require rtconner/laravel-likeable "~1.2"
+	composer require rtconner/laravel-likeable "~2.0"
 
-#### Install and then run the migrations
-
-```php
-'providers' => [
-	\Conner\Likeable\LikeableServiceProvider::class,
-],
-```
+#### Then run the migrations
 
 ```bash
-php artisan vendor:publish --provider="Conner\Likeable\LikeableServiceProvider" --tag=migrations
 php artisan migrate
 ```
 

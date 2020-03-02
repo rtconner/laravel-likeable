@@ -1,18 +1,40 @@
 <?php
 
-use Conner\Likeable\LikeableServiceProvider;
+namespace Conner\Tests\Likeable;
 
-abstract class TestCase extends Orchestra\Testbench\TestCase
+use Conner\Likeable\LikeableServiceProvider;
+use Orchestra\Testbench\TestCase;
+
+abstract class BaseTestCase extends TestCase
 {
 	protected function getPackageProviders($app)
 	{
 	    return [LikeableServiceProvider::class];
 	}
-	
-	public function setUp()
+
+	public function setUp(): void
 	{
 		parent::setUp();
+
+        $this->artisan('migrate')->run();
 	}
+
+    /**
+     * Define environment setup.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    protected function getEnvironmentSetUp($app)
+    {
+        // Setup default database to use sqlite :memory:
+        $app['config']->set('database.default', 'sqlite');
+        $app['config']->set('database.connections.sqlite', [
+            'driver'   => 'sqlite',
+            'database' => ':memory:',
+            'prefix'   => '',
+        ]);
+    }
 	
 	/**
 	 * Assert that two arrays are equal. This helper method will sort the two arrays before comparing them if

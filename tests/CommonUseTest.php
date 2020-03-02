@@ -1,32 +1,25 @@
 <?php
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
+namespace Conner\Tests\Likeable;
+
+use Conner\Likeable\Like;
+use Illuminate\Database\Eloquent\Model;
 use Conner\Likeable\Likeable;
 use Conner\Likeable\LikeCounter;
 
-class CommonUseTest extends TestCase
+class CommonUseBaseTest extends BaseTestCase
 {
-	public function setUp()
+	public function setUp(): void
 	{
 		parent::setUp();
-		
-		Eloquent::unguard();
 
-		$this->artisan('migrate', [
-		    '--database' => 'testbench',
-		    '--realpath' => realpath(__DIR__.'/../migrations'),
-		]);
+        Model::unguard();
 	}
 	
 	protected function getEnvironmentSetUp($app)
 	{
-	    $app['config']->set('database.default', 'testbench');
-	    $app['config']->set('database.connections.testbench', [
-	        'driver'   => 'sqlite',
-	        'database' => ':memory:',
-	        'prefix'   => '',
-	    ]);
-	    
+	    parent::getEnvironmentSetUp($app);
+
 		\Schema::create('books', function ($table) {
 			$table->bigIncrements('id');
 			$table->string('name');
@@ -34,15 +27,16 @@ class CommonUseTest extends TestCase
 		});
 	}
 	
-	public function tearDown()
+	public function tearDown(): void
 	{
 		\Schema::drop('books');
 	}
 
 	public function test_basic_like()
 	{
+	    /** @var Stub $stub */
 		$stub = Stub::create(['name'=>123]);
-		
+
 		$stub->like();
 		
 		$this->assertEquals(1, $stub->likeCount);
@@ -62,6 +56,7 @@ class CommonUseTest extends TestCase
 	
 	public function test_unlike()
 	{
+        /** @var Stub $stub */
 		$stub = Stub::create(['name'=>123]);
 		
 		$stub->unlike(1);
@@ -82,10 +77,14 @@ class CommonUseTest extends TestCase
 		$this->assertEmpty($shouldBeEmpty);
 	}
 	
-	public function test_likes_get_deletes_with_record()
+	public function test_deleteModel_deletesLikes()
 	{
+	    /** @var Stub $stub1 */
 		$stub1 = Stub::create(['name'=>456]);
+	    /** @var Stub $stub2 */
 		$stub2 = Stub::create(['name'=>123]);
+        /** @var Stub $stub3 */
+        $stub3 = Stub::create(['name'=>888]);
 		
 		$stub1->like(1);
 		$stub1->like(7);
@@ -94,18 +93,25 @@ class CommonUseTest extends TestCase
 		$stub2->like(2);
 		$stub2->like(3);
 		$stub2->like(4);
-		
+
+        $stub3->delete();
+        $this->assertEquals(7, Like::count());
+        $this->assertEquals(2, LikeCounter::count());
+
 		$stub1->delete();
-		
-		$results = LikeCounter::all();
-		$this->assertEquals(1, $results->count());
+        $this->assertEquals(4, Like::count());
+		$this->assertEquals(1, LikeCounter::count());
+
+        $stub2->delete();
+        $this->assertEquals(0, Like::count());
+        $this->assertEquals(0, LikeCounter::count());
 	}
 	
 	public function test_rebuild_test()
 	{
 		$stub1 = Stub::create(['name'=>456]);
 		$stub2 = Stub::create(['name'=>123]);
-		
+
 		$stub1->like(1);
 		$stub1->like(7);
 		$stub1->like(8);
@@ -116,20 +122,18 @@ class CommonUseTest extends TestCase
 		
 		LikeCounter::truncate();
 		
-		LikeCounter::rebuild('Stub');
-		
-		$results = LikeCounter::all();
-		$this->assertEquals(2, $results->count());
+		LikeCounter::rebuild(Stub::class);
+
+		$this->assertEquals(2, LikeCounter::count());
 	}
 }
 
-class Stub extends Eloquent
+/**
+ * @mixin \Eloquent
+ */
+class Stub extends Model
 {
 	use Likeable;
-	
-	protected $morphClass = 'Stub';
-	
-	protected $connection = 'testbench';
 	
 	public $table = 'books';
 }

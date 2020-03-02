@@ -8,4 +8,5 @@
 .buildpath
 composer.lock
 /vendor
- .phpintel/*
+.phpintel/*
+.phpunit.result.cache
