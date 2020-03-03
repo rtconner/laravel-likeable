@@ -48,7 +48,9 @@ trait Likeable
 				->where('user_id', '=', $userId)
 				->first();
 	
-			if($like) return;
+			if($like) {
+                return;
+            }
 	
 			$like = new Like();
 			$like->user_id = $userId;

@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 /**
  * @mixin \Eloquent
  * @property Likeable likeable
+ * @property string user_id
+ * @property string likeable_id
+ * @property string likeable_type
  */
 class Like extends Eloquent
 {
