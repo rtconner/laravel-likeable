@@ -12,12 +12,12 @@
 	],
 	"require": {
 		"php": ">=5.6.0",
-		"illuminate/database": ">=5.0|^6.0|^7.0",
-		"illuminate/support": ">=5.0|^6.0|^7.0"
+		"illuminate/database": ">=5.0|^6.0|^7.0|^8.0",
+		"illuminate/support": ">=5.0|^6.0|^7.0|^8.0"
 	},
 	"require-dev": {
-		"orchestra/testbench": "5.*",
-		"phpunit/phpunit": "8.*",
+		"orchestra/testbench": "5.*|6.*",
+		"phpunit/phpunit": "8.*|9.*",
 		"mockery/mockery": "1.*"
 	},
 	"autoload": {
@@ -30,6 +30,17 @@
 			"Conner\\Tests\\Likeable\\": "tests/"
 		}
 	},
+	"scripts": {
+        "test": "vendor/bin/phpunit --color=always",
+        "check": [
+            "php-cs-fixer fix --ansi --dry-run --diff .",
+            "phpcs --report-width=200 --report-summary  --report-full src/ tests/ --standard=PSR2 -n",
+            "phpmd src/,tests/ text ./phpmd.xml.dist"
+        ],
+        "fix": [
+            "php-cs-fixer fix --ansi ."
+        ]
+    },
 	"extra": {
 		"laravel": {
 			"providers": [
