@@ -10,3 +10,4 @@ composer.lock
 /vendor
 .phpintel/*
 .phpunit.result.cache
+.php_cs.cache

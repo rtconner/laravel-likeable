@@ -9,12 +9,12 @@ Important Note: As of version 1.2 I renamed `Conner\Likeable\LikeableTrait` to `
 
 Trait for Laravel Eloquent models to allow easy implementation of a "like" or "favorite" or "remember" feature.
 
-[Laravel 5/6/7 Documentation](https://github.com/rtconner/laravel-likeable/tree/laravel-7)  
+[Laravel 5/6/7/8 Documentation](https://github.com/rtconner/laravel-likeable/tree/laravel-7)
 [Laravel 4 Documentation](https://github.com/rtconner/laravel-likeable/tree/laravel-4)
 
-#### Composer Install (for Laravel 5)
+#### Composer Install
 
-	composer require rtconner/laravel-likeable "~3.0"
+    composer require rtconner/laravel-likeable
 
 #### Then run the migrations
 
@@ -26,7 +26,7 @@ php artisan migrate
 
 ```php
 class Article extends \Illuminate\Database\Eloquent\Model {
-	use \Conner\Likeable\LikeableTrait;
+	use \Conner\Likeable\Likeable;
 }
 ```
 
@@ -43,7 +43,7 @@ $article->unlike(0); // remove likes from the count -- does not check for user
 
 $article->likeCount; // get count of likes
 
-$article->likes; // Iterable Illuminate\Database\Eloquent\Collection of existing likes 
+$article->likes; // Iterable Illuminate\Database\Eloquent\Collection of existing likes
 
 $article->liked(); // check if currently logged in user liked the article
 $article->liked($myUserId);
